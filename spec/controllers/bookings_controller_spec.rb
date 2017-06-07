@@ -15,11 +15,11 @@ RSpec.describe BookingsController do
       { start: '2017-02-01', end: '2017-02-20', expected_result: false},
       { start: '2017-02-15', end: '2017-02-25', expected_result: false},
       { start: '2017-02-16', end: '2017-02-25', expected_result: true},
-      { start: '2017-01-01', end: '2017-02-17', expected_result: false},     # the case send a fake positif :/ the origin algo is wrong
-      { start: '2017-02-16', end: '2017-03-01', expected_result: true} ].each do |current_case|
+      { start: '2017-01-01', end: '2017-02-17', expected_result: false},
+      { start: '2017-02-16', end: '2017-03-01', expected_result: false} ].each do |current_case|
 
       it "check between " + current_case[:start].to_s + " and " + current_case[:end].to_s do
-        post :create, { params: { room_id: room.id, start: current_case[:start], end: current_case[:start] }}
+        post :create, { params: { room_id: room.id, start: current_case[:start], end: current_case[:end] }}
 
         if current_case[:expected_result]
           expect(JSON.parse(response.body, symbolize_names: true)[:message]).to eql msg_ok
